@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+.cold-color-linear {
+  background-image: linear-gradient(to bottom right, lightblue, blue, magenta);
+}
+
+.cold-color-linear:hover {
+  opacity: 70%;
+  transition: 200ms;
+}
+
