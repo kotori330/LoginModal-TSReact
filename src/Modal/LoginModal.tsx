@@ -2,6 +2,57 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { regexPassword } from "../utils/regex";
 import { loginUser } from "../services/fetchData";
 import Input from "../component/Input";
+import { memo } from "react";
+
+// memo prevents unnecessary re-render (optional but recommended)
+const InputField = memo(({ 
+  formData, 
+  handleChange, 
+  errorUsername, 
+  errorPassword 
+}: {
+  formData: { username: string; password: string };
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  errorUsername: string;
+  errorPassword: string;
+}) => {
+  const inputFields = [
+    {
+      id: "username",
+      name: "username",
+      type: "text",
+      placeholder: "Enter your username",
+      iconSrc: "./src/assets/user.png",
+    },
+    {
+      id: "password",
+      name: "password",
+      type: "password",
+      placeholder: "Enter your password",
+      iconSrc: "./src/assets/padlock.png",
+    },
+  ] as const;
+
+  return (
+    <>
+      {inputFields.map((field) => (
+        <Input
+          key={field.id}
+          id={field.id}
+          src={field.iconSrc}
+          type={field.type}
+          name={field.name}
+          placeholder={field.placeholder}
+          value={formData[field.name]}
+          handleChange={handleChange}
+          errorMessage={
+            field.name === "username" ? errorUsername : errorPassword
+          }
+        />
+      ))}
+    </>
+  );
+});
 
 const LoginModal = ({
   closeModal,
@@ -101,6 +152,7 @@ const LoginModal = ({
 
     if (isValid) {
       alert("Login successful.");
+      closeModal();
     }
   };
 
@@ -121,32 +173,12 @@ const LoginModal = ({
 
             {/* Content */}
 
-            {/* Username */}
-
-            <Input
-              src="./src/assets/user.png"
-              type="text"
-              name="username"
-              id="username"
-              placeholder={`Enter your username`}
-              value={formData.username}
-              handleChange={handleChange}
-              errorMessage={errorUsername}
-            />
-
-            <div className="border opacity-10 w-1/2 mx-auto my-1"></div>
-
-            {/* Password */}
-            <Input
-              src="./src/assets/padlock.png"
-              type="password"
-              name="password"
-              id="password"
-              placeholder={`Enter your password`}
-              value={formData.password}
-              handleChange={handleChange}
-              errorMessage={errorPassword}
-            />
+            <InputField
+          formData={formData}
+          handleChange={handleChange}
+          errorUsername={errorUsername}
+          errorPassword={errorPassword}
+        />
 
             <div className="border opacity-10 w-1/2 mx-auto my-1"></div>
 

@@ -1,16 +1,15 @@
-import { ChangeEvent, useState } from "react";
-import { regexPassword } from "../utils/regex";
+import { ChangeEvent } from "react";
 
 type Input = {
   // label: string;
-  src: string
+  src: string;
   type: string;
   name: string;
   id: string;
   placeholder: string;
   value: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  errorMessage: string
+  errorMessage: string;
 };
 
 const Input = ({
@@ -22,9 +21,8 @@ const Input = ({
   placeholder,
   value,
   handleChange,
-  errorMessage
+  errorMessage,
 }: Input) => {
-
   return (
     <>
       <div className="flex my-2 justify-center items-center">
@@ -40,10 +38,10 @@ const Input = ({
             onChange={handleChange}
           />
           {errorMessage ? (
-                    <span className="text-red-600 mx-4">{errorMessage}</span>
-                  ) : (
-                    <></>
-                  )}
+            <span className="text-red-600 mx-4">{errorMessage}</span>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>
